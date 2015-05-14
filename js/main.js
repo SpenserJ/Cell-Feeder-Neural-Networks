@@ -19,6 +19,9 @@ function calculateArea(radius) {
   var actors = [];
   actors.push(new Cell(10, getRandomArbitrary(0, canvas.width), getRandomArbitrary(0, canvas.height)));
   actors.push(new Cell(10, getRandomArbitrary(0, canvas.width), getRandomArbitrary(0, canvas.height)));
+  actors.push(new Cell(10, getRandomArbitrary(0, canvas.width), getRandomArbitrary(0, canvas.height)));
+  actors.push(new Cell(10, getRandomArbitrary(0, canvas.width), getRandomArbitrary(0, canvas.height)));
+  actors.push(new Cell(10, getRandomArbitrary(0, canvas.width), getRandomArbitrary(0, canvas.height)));
 
   function tick() {
     var i;
@@ -27,13 +30,13 @@ function calculateArea(radius) {
     var food = actors.filter(function (item) { return (item instanceof Food); });
     var cells = actors.filter(function (item) { return (item instanceof Cell); });
 
-    for (i = food.length; i < 3; i++) {
+    for (i = food.length; i < 8; i++) {
       actors.push(new Food(getRandomArbitrary(2, 10), getRandomArbitrary(0, canvas.width), getRandomArbitrary(0, canvas.height)));
     }
 
     for (i = 0; i < actors.length; i++) {
       var cell = actors[i];
-      if (typeof cell.look === 'function') { cell.look(food); }
+      if (typeof cell.look === 'function') { cell.look(actors); }
       cell.tick();
     }
 

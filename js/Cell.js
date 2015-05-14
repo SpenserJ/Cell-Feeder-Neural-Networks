@@ -2,21 +2,26 @@ class Cell extends Circle {
   constructor(radius, x, y) {
     super(radius, x, y);
 
+    this.isDead = false;
     this.background = 'green';
     this.border = '#003300';
   }
 
-  look(food) {
+  look(actors) {
     var self = this;
     var nearby = [];
-    food.forEach(function (item) {
+    actors.forEach(function (item) {
+      // Don't detect ourselves.
+      if (self === item) { return; }
+
       var distance = Math.sqrt(Math.pow(item.position.x - self.position.x, 2) + Math.pow(item.position.y - self.position.y, 2));
       var is_edible = (item.mass <= self.mass * 0.9);
+      var is_dangerous = (self.mass <= item.mass * 0.9);
       nearby.push({
         distance: distance,
-        type: 'food',
+        type: item.constructor.name,
         is_edible: is_edible,
-        is_dangerous: false,
+        is_dangerous: is_dangerous,
         object: item,
       });
     });
@@ -36,7 +41,7 @@ class Cell extends Circle {
     });
 
     nearby = nearby.filter(function (target) {
-      if (self.hasCollided(target)) {
+      if (self.hasCollided(target) && target.is_edible) {
         target.object.isDead = true;
         self.mass += target.object.mass;
         self.radius = calculateRadius(self.mass);
@@ -45,10 +50,12 @@ class Cell extends Circle {
       return true;
     });
 
-    if (nearby.length === 0) {
+    var nearbyFood = nearby.filter(function (target) { return target.is_edible; });
+
+    if (nearbyFood.length === 0) {
       this.move(this.position.x + getRandomArbitrary(-1, 1), this.position.y + getRandomArbitrary(-1, 1));
     } else {
-      var closest = nearby[0];
+      var closest = nearbyFood[0];
       var deltaX = (closest.object.position.x - this.position.x);
       var deltaY = (closest.object.position.y - this.position.y);
       var angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
