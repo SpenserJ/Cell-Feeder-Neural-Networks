@@ -21,7 +21,6 @@ function calculateArea(radius) {
   function tick() {
     var i;
 
-    actors = actors.filter(function (item) { return !item.isDead; });
     var food = actors.filter(function (item) { return (item instanceof Food); });
     var cells = actors.filter(function (item) { return (item instanceof Cell); });
 
@@ -45,6 +44,7 @@ function calculateArea(radius) {
   function render() {
     var i;
 
+    actors = actors.filter(function (item) { return !item.isDead; });
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     for (i = 0; i < actors.length; i++) {

@@ -10,7 +10,6 @@ class Cell extends Circle {
 
   updateSpeed() {
     this.speed = (1 / (Math.log(this.mass) / Math.log(calculateArea(10))));
-    console.log('New speed is', this.speed, 'for mass', this.mass);
   }
 
   look(actors) {
@@ -22,7 +21,7 @@ class Cell extends Circle {
 
       var distance = Math.sqrt(Math.pow(item.position.x - self.position.x, 2) + Math.pow(item.position.y - self.position.y, 2));
       var is_edible = (item.mass <= self.mass * 0.9);
-      var is_dangerous = (self.mass <= item.mass * 0.9);
+      var is_dangerous = ((self.mass <= item.mass * 0.9) && item.constructor.name === 'Cell');
       nearby.push({
         distance: distance,
         type: item.constructor.name,
