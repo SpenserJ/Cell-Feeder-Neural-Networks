@@ -2,9 +2,15 @@ class Cell extends Circle {
   constructor(radius, x, y) {
     super(radius, x, y);
 
+    this.updateSpeed();
     this.isDead = false;
     this.background = 'green';
     this.border = '#003300';
+  }
+
+  updateSpeed() {
+    this.speed = (1 / (Math.log(this.mass) / Math.log(calculateArea(10))));
+    console.log('New speed is', this.speed, 'for mass', this.mass);
   }
 
   look(actors) {
@@ -29,8 +35,10 @@ class Cell extends Circle {
   }
 
   move(x, y) {
-    this.position.x = x;
-    this.position.y = y;
+    x = x * this.speed;
+    y = y * this.speed;
+    this.position.x += x;
+    this.position.y += y;
   }
 
   tick() {
@@ -45,6 +53,7 @@ class Cell extends Circle {
         target.object.isDead = true;
         self.mass += target.object.mass;
         self.radius = calculateRadius(self.mass);
+        self.updateSpeed();
         return false;
       }
       return true;
@@ -53,13 +62,13 @@ class Cell extends Circle {
     var nearbyFood = nearby.filter(function (target) { return target.is_edible; });
 
     if (nearbyFood.length === 0) {
-      this.move(this.position.x + getRandomArbitrary(-1, 1), this.position.y + getRandomArbitrary(-1, 1));
+      this.move(getRandomArbitrary(-1, 1), getRandomArbitrary(-1, 1));
     } else {
       var closest = nearbyFood[0];
       var deltaX = (closest.object.position.x - this.position.x);
       var deltaY = (closest.object.position.y - this.position.y);
       var angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
-      this.move(this.position.x + Math.cos(angle), this.position.y + Math.sin(angle));
+      this.move(Math.cos(angle), Math.sin(angle));
     }
   }
 };
