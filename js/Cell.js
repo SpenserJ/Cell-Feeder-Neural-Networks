@@ -3,6 +3,7 @@ class Cell extends Circle {
     super(radius, x, y);
 
     this.updateSpeed();
+    this.updateDecayRate();
     this.isDead = false;
     this.background = 'green';
     this.border = '#003300';
@@ -10,6 +11,12 @@ class Cell extends Circle {
 
   updateSpeed() {
     this.speed = (1 / (Math.log(this.mass) / Math.log(calculateArea(10))));
+  }
+
+  updateDecayRate() {
+    // Small cells shouldn't decay.
+    var massLog = Math.log(this.mass) - Math.log(calculateArea(10));
+    this.decayRate = massLog;
   }
 
   look(actors) {
@@ -42,6 +49,11 @@ class Cell extends Circle {
 
   tick() {
     var self = this;
+
+    self.updateDecayRate();
+    // Ensure the mass never dips below that of a small cell.
+    self.mass = Math.max(self.mass - self.decayRate, calculateArea(10));
+    self.radius = calculateRadius(self.mass);
 
     var nearby = this.nearby.sort(function (a, b) {
       return (a.distance - b.distance);
