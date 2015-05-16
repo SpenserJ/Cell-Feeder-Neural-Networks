@@ -24,5 +24,13 @@ class Circle {
     context.lineWidth = 2;
     context.strokeStyle = this.border;
     context.stroke();
+
+    if (typeof this.text !== 'undefined') {
+      context.fillStyle = 'black';
+      context.font = 'bold 12px Arial';
+      var textX = this.position.x - context.measureText(this.text).width / 2;
+      var textY = this.position.y + 6;
+      context.fillText(this.text, textX, textY);
+    }
   }
 };

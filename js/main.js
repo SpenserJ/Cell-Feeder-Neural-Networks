@@ -16,15 +16,19 @@ function calculateArea(radius) {
   var canvas = document.getElementById('game');
   var context = canvas.getContext('2d');
 
+  var totalTicks = 0;
+
   var actors = [];
 
   function tick() {
     var i;
+    totalTicks++;
 
     var food = actors.filter(function (item) { return (item instanceof Food); });
     var cells = actors.filter(function (item) { return (item instanceof Cell); });
 
-    for (i = food.length; i < 8; i++) {
+    // Create new food every 30 ticks (0.5 second at 60FPS).
+    if (totalTicks % 30 === 0) {
       actors.push(new Food(getRandomArbitrary(2, 10), getRandomArbitrary(0, canvas.width), getRandomArbitrary(0, canvas.height)));
     }
 
@@ -50,6 +54,10 @@ function calculateArea(radius) {
     for (i = 0; i < actors.length; i++) {
       actors[i].draw(context);
     }
+
+    context.fillStyle = 'black';
+    context.font = 'bold 16px Arial';
+    context.fillText('Current Tick: ' + totalTicks, 10, 20);
 
     requestAnimationFrame(tick);
   }

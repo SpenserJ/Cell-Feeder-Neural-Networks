@@ -81,5 +81,7 @@ class Cell extends Circle {
       var angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
       this.move(Math.cos(angle), Math.sin(angle));
     }
+
+    self.text = Math.round(self.radius, 0);
   }
 };
