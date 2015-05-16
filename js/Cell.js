@@ -78,7 +78,7 @@ class Cell extends Circle {
       var closest = nearbyFood[0];
       var deltaX = (closest.object.position.x - this.position.x);
       var deltaY = (closest.object.position.y - this.position.y);
-      var angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+      var angle = Math.atan2(deltaY, deltaX);
       this.move(Math.cos(angle), Math.sin(angle));
     }
 
