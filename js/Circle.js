@@ -18,7 +18,7 @@ class Circle {
 
   draw(context) {
     context.beginPath();
-    context.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI, false);
+    context.arc(this.position.x - this.radius / 2, this.position.y - this.radius / 2, this.radius, 0, 2 * Math.PI, false);
     context.fillStyle = this.background;
     context.fill();
     context.lineWidth = 2;
@@ -28,8 +28,8 @@ class Circle {
     if (typeof this.text !== 'undefined') {
       context.fillStyle = 'black';
       context.font = 'bold 12px Arial';
-      var textX = this.position.x - context.measureText(this.text).width / 2;
-      var textY = this.position.y + 6;
+      var textX = this.position.x - context.measureText(this.text).width / 2 - this.radius / 2;
+      var textY = this.position.y + 6 - this.radius / 2;
       context.fillText(this.text, textX, textY);
     }
   }
