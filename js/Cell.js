@@ -10,7 +10,7 @@ class Cell extends Circle {
   }
 
   updateSpeed() {
-    this.speed = (1 / (Math.log(this.mass) / Math.log(calculateArea(10))));
+    this.speed = (1.2 / (Math.log(this.mass) / Math.log(calculateArea(10))));
   }
 
   updateDecayRate() {

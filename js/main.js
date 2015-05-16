@@ -27,8 +27,8 @@ function calculateArea(radius) {
     var food = actors.filter(function (item) { return (item instanceof Food); });
     var cells = actors.filter(function (item) { return (item instanceof Cell); });
 
-    // Create new food every 30 ticks (0.5 second at 60FPS).
-    if (totalTicks % 30 === 0) {
+    // Create new food every 15 ticks (0.25 second at 60FPS).
+    if (totalTicks % 15 === 0) {
       actors.push(new Food(getRandomArbitrary(2, 10), getRandomArbitrary(0, canvas.width), getRandomArbitrary(0, canvas.height)));
     }
 
